@@ -17,7 +17,7 @@ services:
     environment: 
       # present in key.js set variable in the container at runtime.
       # if we already added env var on machine then we can directly
-      # used by using name. 
+      # used by using name present locally.
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - PGUSER=postgres
