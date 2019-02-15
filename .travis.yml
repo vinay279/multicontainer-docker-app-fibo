@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+before_install:
+# build image for the test react app.
+  - docker build -t vinay27/react-test -f ./client/Dockerfile.dev ./client 
+script:
+# running the 
+  - docker run vinay27/react-test npm test -- --coverage
+
+after_success:
+# building all the dockerfiles which are present.
+# all dockerfile are the production version.
+  - docker build -t vinay27/multi-client ./client
+  - docker build -t vinay27/multi-nginx  ./nginx
+  - docker build -t vinay27/multi-worker ./worker
+  - docker build -t vinay27/multi-server ./server
+  # docker login first
+  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password-std-in
+  # pushing images to docker hub
+  - docker push vinay27/multi-client
+  - docker push vinay27/multi-nginx 
+  - docker push vinay27/multi-worker
+  - docker push vinay27/multi-server
