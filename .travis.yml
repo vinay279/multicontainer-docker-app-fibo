@@ -17,7 +17,7 @@ after_success:
   - docker build -t vinay27/multi-server ./server
   # docker login first
   - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password-std-in
-  # pushing images to docker hub
+  # pushing images to docker hub create repo first
   - docker push vinay27/multi-client
   - docker push vinay27/multi-nginx 
   - docker push vinay27/multi-worker
