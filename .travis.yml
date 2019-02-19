@@ -1,0 +1,50 @@
+sudo: required
+services:
+  - docker
+before_install:
+# build image for the test react app.
+  - docker build -t vinay27/react-test -f ./client/Dockerfile.dev ./client 
+script:
+# running the 
+  - docker run vinay27/react-test npm test -- --coverage
+
+after_success:
+# building all the dockerfiles which are present.
+# all dockerfile are the production version.
+  - docker build -t vinay27/multi-client ./client
+  - docker build -t vinay27/multi-nginx  ./nginx
+  - docker build -t vinay27/multi-worker ./worker
+  - docker build -t vinay27/multi-server ./server
+  
+  #tag images with repo
+
+  - docker tag client:latest vinay27/multi-client
+  - docker tag nginx:latest  vinay27/multi-nginx 
+  - docker tag worker:latest vinay27/multi-worker
+  - docker tag server:latest vinay27/multi-server
+  
+  
+  # docker login first
+  - echo $DOCKER_PASS | docker login -u $DOCKER_ID --password-stdin
+  
+  # pushing images to docker hub create repo first
+  - docker push vinay27/multi-client
+  - docker push vinay27/multi-nginx 
+  - docker push vinay27/multi-worker
+  - docker push vinay27/multi-server
+
+
+  # PULL IMAGES AND DEPLOY
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-1
+  app: multi-contatiner
+  env:  MultiContatiner-env
+  bucket_name: elasticbeanstalk-us-east-1-089662159659
+  bucket_path: docker-multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
