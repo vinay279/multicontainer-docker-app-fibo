@@ -32,3 +32,20 @@ after_success:
   - docker push vinay27/multi-nginx 
   - docker push vinay27/multi-worker
   - docker push vinay27/multi-server
+
+
+  # PULL IMAGES AND DEPLOY
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-1
+  app: multi-contatiner
+  env:  MultiContatiner-env
+  bucket_name: elasticbeanstalk-us-east-1-089662159659
+  bucket_path: docker-multi
+
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
