@@ -47,6 +47,8 @@ deploy:
   env:  "MultiDockerApp-env"
   bucket_name: "elasticbeanstalk-us-east-1-089662159659"
   bucket_path: "docker-multi"
-  on:
-    branch: master
+  branches:
+  only:
+  - master
+  
   
