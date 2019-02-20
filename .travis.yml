@@ -35,7 +35,7 @@ after_success:
 
 
   # PULL IMAGES AND DEPLOY
-  
+  # new comment added
 
 deploy:
   provider: elasticbeanstalk
