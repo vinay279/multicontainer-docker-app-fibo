@@ -11,10 +11,10 @@ script:
 after_success:
 # building all the dockerfiles which are present.
 # all dockerfile are the production version.
-  - docker build -t vinay27/multi-client ./client
-  - docker build -t vinay27/multi-nginx  ./nginx
-  - docker build -t vinay27/multi-worker ./worker
-  - docker build -t vinay27/multi-server ./server
+  - docker build -t client ./client
+  - docker build -t nginx  ./nginx
+  - docker build -t worker ./worker
+  - docker build -t server ./server
   
   #tag images with repo
 
@@ -42,13 +42,12 @@ deploy:
   access_key_id: "$AWS_ACCESS_KEY"
   secret_access_key:
     secure: "$AWS_SECRET_KEY"
-  region: "us-east-1"
-  app:  "multi-docker app"
-  env:  "MultiDockerApp-env"
-  bucket_name: "elasticbeanstalk-us-east-1-089662159659"
+  region: us-east-1
+  app:  multi-container
+  env:  MultiContainer-env
+  bucket_name: elasticbeanstalk-us-east-1-089662159659
   bucket_path: "docker-multi"
-  branches:
-  only:
-  - master
+  on:
+    branch: master
   
   

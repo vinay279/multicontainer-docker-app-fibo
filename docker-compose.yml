@@ -1,7 +1,7 @@
 version: '3'
 services:
   postgres:
-    # image from docker hub 
+    # image from docker hub  for postgress
     image: 'postgres:latest'
 
   redis: 
