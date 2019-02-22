@@ -47,7 +47,8 @@ deploy:
   env:  MultiContainer-env
   bucket_name: elasticbeanstalk-us-east-1-089662159659
   bucket_path: "docker-multi"
-  on:
+    on:
+    repo: https://github.com/vinay279/multicontainer-docker-app-fibo
     branch: master
   
   
